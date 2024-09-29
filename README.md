@@ -14,3 +14,23 @@ SSM Paramstore:
 
 SSM paramstore is just key value pair.
 
+mysql:
+
+port : 3306
+
+IP: backend private IP
+
+Private IP will not change after ec2 instance restart But public IP will change after restart.
+
+Private IP may change after ec2 termination and recreation of ec2.
+
+So instead of allowing IPs from backend , we can allow backend security group.
+
+Source: Backend SG -> mysql will allow connection from instances which are attached to backend SG.
+
+backend SG: backend SG accepts connections from frontend SG, port 8080
+
+frontend SG: it accept connections from public (0.0.0.0/0), port 80
+
+
+
