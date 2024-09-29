@@ -43,6 +43,23 @@ We have two optons to connect to office network from home
 Bastion - Bastion is a server , usually placed in public subnet and we create a seperate sg for it. Users can connect to bastion server and then access the frontend/backend/db servers
 
 
+Opensource modules:
+
+We have opensource modules contributed from terrafrom and AWS. we can use them also.
+
+Adv:
+
+we no need to develop module.
+
+Dis Adv:
+
+We need to depend on community
+
+Custom modules:
+
+1. we have to develop everything. 
+2. we have freedom to develop whatever we want.
+
 
 
 
