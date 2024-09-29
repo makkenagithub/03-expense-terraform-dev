@@ -40,3 +40,10 @@ variable "frontend_sg_tags" {
 
 }
 
+variable "frontend_sg_tags" {
+    default = {
+        Component = "bastion"
+    }
+
+}
+

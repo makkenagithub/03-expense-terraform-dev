@@ -33,4 +33,18 @@ backend SG: backend SG accepts connections from frontend SG, port 8080
 frontend SG: it accept connections from public (0.0.0.0/0), port 80
 
 
+Bastion and VPN:
+
+We have two optons to connect to office network from home
+
+1. Bastion (jump server)
+2. VPN
+
+Bastion - Bastion is a server , usually placed in public subnet and we create a seperate sg for it. Users can connect to bastion server and then access the frontend/backend/db servers
+
+
+
+
+
+
 
