@@ -98,6 +98,9 @@ module "ansible_ec2" {
   vpc_security_group_ids = [local.ansible_sg_id]
   subnet_id              = local.public_subnet_id
 
+# run the user data/installations after creating instance
+  user_data = file("expensh.sh")
+
   tags = merge(
     var.common_tags,
     var.ansible_tags,
@@ -136,10 +139,10 @@ module "records" {
       type    = "A"
       ttl     = 1
       records = [
-      module.frontend_ec2.private_ip
+      module.frontend_ec2.public_ip
       ]
     }
   ]
 
-  depends_on = [module.zones]
+
 }
