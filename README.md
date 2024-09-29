@@ -64,6 +64,9 @@ To see the running logs of an ec2 server, the path is
 
 /var/log/cloud-init-output.log
 
+![Capture](https://github.com/user-attachments/assets/f6795589-385c-4f45-bc93-e1d3c1092145)
+
+
 
 
 
