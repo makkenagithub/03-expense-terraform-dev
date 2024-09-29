@@ -141,6 +141,14 @@ module "records" {
       records = [
       module.frontend_ec2.public_ip
       ]
+    },
+    {
+      name    = ""
+      type    = "A"
+      ttl     = 1
+      records = [
+      module.frontend_ec2.public_ip
+      ]
     }
   ]
 
