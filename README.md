@@ -60,6 +60,12 @@ Custom modules:
 1. we have to develop everything. 
 2. we have freedom to develop whatever we want.
 
+To see the running logs of an ec2 server, the path is
+
+/var/log/cloud-init-output.log
+
+
+
 
 
 

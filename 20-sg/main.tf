@@ -158,6 +158,21 @@ resource "aws_security_group_rule" "frontend_bastion" {
   security_group_id = module.frontend_sg.id
 }
 
+resource "aws_security_group_rule" "bastion_public" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  # accept connections from this source
+  #source_security_group_id = module.ansible_sg.id
+
+  cidr_blocks       = ["0.0.0.0/0"]
+  #ipv6_cidr_blocks  = [aws_vpc.example.ipv6_cidr_block]
+  
+  # security group to apply this rule to
+  security_group_id = module.bastion_sg.id
+}
+
 
 # mysql allowing connection on 22 from ansible
 resource "aws_security_group_rule" "mysql_ansible" {
