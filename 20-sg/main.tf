@@ -50,6 +50,19 @@ module "bastion_sg" {
     sg_tags = var.bastion_sg_tags
 }
 
+module "ansible_sg" {
+    source = "../../03-terraform-sg-module"
+    # to give source from module prepared in GITHUB
+    # source = "git::https://github.com/makkenagithub/03-terraform-sg-module.git?ref=main"
+
+    project_name = var.project_name
+    env = var.env
+    sg_name = "ansible"
+    vpc_id  = local.vpc_id
+    common_tags = var.common_tags
+    sg_tags = var.ansible_sg_tags
+}
+
 # mysql allowing connection on 3306 from instances attched to backed sg
 resource "aws_security_group_rule" "mysql_backend" {
   type              = "ingress"
@@ -144,4 +157,54 @@ resource "aws_security_group_rule" "frontend_bastion" {
   # security group to apply this rule to
   security_group_id = module.frontend_sg.id
 }
+
+
+# mysql allowing connection on 22 from ansible
+resource "aws_security_group_rule" "mysql_ansible" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  # accept connections from this source
+  source_security_group_id = module.ansible_sg.id
+
+  #cidr_blocks       = ["0.0.0.0/0"]
+  #ipv6_cidr_blocks  = [aws_vpc.example.ipv6_cidr_block]
+  
+  # security group to apply this rule to
+  security_group_id = module.mysql_sg.id
+}
+
+# backend allowing connection on 22 from ansible
+resource "aws_security_group_rule" "backend_ansible" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  # accept connections from this source
+  source_security_group_id = module.ansible_sg.id
+
+  #cidr_blocks       = ["0.0.0.0/0"]
+  #ipv6_cidr_blocks  = [aws_vpc.example.ipv6_cidr_block]
+  
+  # security group to apply this rule to
+  security_group_id = module.backend_sg.id
+}
+
+# frontend allowing connection on 22 from ansible
+resource "aws_security_group_rule" "frontend_ansible" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  # accept connections from this source
+  source_security_group_id = module.ansible_sg.id
+
+  #cidr_blocks       = ["0.0.0.0/0"]
+  #ipv6_cidr_blocks  = [aws_vpc.example.ipv6_cidr_block]
+  
+  # security group to apply this rule to
+  security_group_id = module.frontend_sg.id
+}
+
 

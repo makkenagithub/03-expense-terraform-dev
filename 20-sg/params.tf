@@ -28,3 +28,10 @@ resource "aws_ssm_parameter" "bastion_sg_id" {
   value = module.bastion_sg.id
 }
 
+resource "aws_ssm_parameter" "ansible_sg_id" {
+    #/expense/dev/ansible_sg_id
+  name  = "/${var.project_name}/${var.env}/ansible_sg_id"
+  type  = "String"
+  value = module.ansible_sg.id
+}
+

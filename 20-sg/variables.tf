@@ -47,3 +47,10 @@ variable "frontend_sg_tags" {
 
 }
 
+
+variable "ansible_sg_tags" {
+    default = {
+        Component = "ansible"
+    }
+
+}

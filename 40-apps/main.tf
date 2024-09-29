@@ -80,3 +80,66 @@ module "frontend_ec2" {
     }
   )
 }
+
+module "ansible_ec2" {
+
+    # by default it uses the git hub source for open source modules
+  source  = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "${local.resource_name}-ansible"
+
+  ami = data.aws_ami.suresh.id
+
+  instance_type          = "t3.micro"
+  #key_name               = "user1"
+  #monitoring             = true
+
+
+  vpc_security_group_ids = [local.ansible_sg_id]
+  subnet_id              = local.public_subnet_id
+
+  tags = merge(
+    var.common_tags,
+    var.ansible_tags,
+    {
+        Name = "${local.resource_name}-ansible"
+    }
+  )
+}
+
+
+module "records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+
+
+  zone_name = var.zone_name
+
+  records = [
+    {
+      name    = "mysql"
+      type    = "A"
+      ttl     = 1
+      records = [
+        module.mysql_ec2.private_ip
+      ]
+    },
+    {
+      name    = "backend"
+      type    = "A"
+      ttl     = 1
+      records = [
+      module.backend_ec2.private_ip
+      ]
+    },
+    {
+      name    = "frontend"
+      type    = "A"
+      ttl     = 1
+      records = [
+      module.frontend_ec2.private_ip
+      ]
+    }
+  ]
+
+  depends_on = [module.zones]
+}
